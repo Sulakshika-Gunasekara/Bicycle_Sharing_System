@@ -31,11 +31,6 @@ public class RiderController {
         return riderService.createRider(rider);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Rider> updateRider(@PathVariable String id, @RequestBody Rider rider) {
-        return ResponseEntity.ok(riderService.updateRider(id, rider));
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRider(@PathVariable String id) {
         riderService.deleteRider(id);

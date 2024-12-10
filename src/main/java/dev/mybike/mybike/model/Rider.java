@@ -1,9 +1,10 @@
 package dev.mybike.mybike.model;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document("riders")
+@Data
+@Document(collection = "riders")
 public class Rider {
     @Id
     private String id;
@@ -16,16 +17,6 @@ public class Rider {
     private String nicImagePath;
     private String creditCardDetails;
     private double balance;
-    public Object getEmail() {
-        return email;
-    }
-    public Object getName() {
-        return null;
-    }
 
-    public void setName(Object name) {
-    }
 
-    public void setEmail(Object email) {
-    }
 }

@@ -11,8 +11,6 @@ public interface RiderService {
 
     Rider createRider(Rider rider);
 
-    Rider updateRider(String id, Rider rider);
-
     void deleteRider(String id);
-    
+
 }
