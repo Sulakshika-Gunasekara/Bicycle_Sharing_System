@@ -43,7 +43,4 @@ public class DockingStationController {
         DockingStation updatedDockingStation = dockingStationService.deactivateDockingStation(stationId);
         return ResponseEntity.ok(updatedDockingStation);
     }
-
-
-
 }

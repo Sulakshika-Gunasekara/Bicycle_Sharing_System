@@ -21,6 +21,5 @@ public class Rider {
     private String nicImagePath;
     private String creditCardDetails;
     private double balance;
-
-
+    private String location; // Added location attribute
 }

@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Document(collation = "bike")
 @Data
-public class bike {
+public class Bike {
 
     @Id
     private String id;

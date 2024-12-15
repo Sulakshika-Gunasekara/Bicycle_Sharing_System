@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.mybike.mybike.model.bike;
-import dev.mybike.mybike.service.bikeService;
+import dev.mybike.mybike.model.Bike;
+import dev.mybike.mybike.service.BikeService;
 
 @RestController
 @RequestMapping("api/bike")
 @ControllerAdvice
-public class bikeController {
+public class BikeController {
 
     @Autowired
-    private bikeService bikeService;
+    private BikeService bikeService;
 
     @PostMapping("/{bikeId}/report-issue")
-    public ResponseEntity<bike> reportBikeIssue(@PathVariable String bikeId, @RequestBody ReportBikeIssueRequest request) {
-        bike bike = bikeService.reportBikeIssue(bikeId, request.getIssueType(), request.getDescription());
+    public ResponseEntity<Bike> reportBikeIssue(@PathVariable String bikeId, @RequestBody ReportBikeIssueRequest request) {
+        Bike bike = bikeService.reportBikeIssue(bikeId, request.getIssueType(), request.getDescription());
         return ResponseEntity.ok(bike);
     }
 
@@ -37,8 +37,8 @@ public class bikeController {
     }
 
     @PostMapping("/reserve")
-    public ResponseEntity<bike> reserveBike(@RequestBody ReserveBikeRequest request) {
-        bike bike = bikeService.reserveBike(request.getBikeId(), request.getStationId(), request.getDuration());
+    public ResponseEntity<Bike> reserveBike(@RequestBody ReserveBikeRequest request) {
+        Bike bike = bikeService.reserveBike(request.getBikeId(), request.getStationId(), request.getDuration());
         return ResponseEntity.ok(bike);
     }
 
@@ -50,15 +50,15 @@ public class bikeController {
     }
 
      @GetMapping("/{bikeId}/track")
-    public ResponseEntity<bike> trackBike(@PathVariable String bikeId) {
-        bike bike = bikeService.trackBike(bikeId);
+    public ResponseEntity<Bike> trackBike(@PathVariable String bikeId) {
+        Bike bike = bikeService.trackBike(bikeId);
         return ResponseEntity.ok(bike);
     }
 
     @GetMapping("/available/{stationId}")
-    public ResponseEntity<List<bike>> getAvailableBikes(@PathVariable String stationId) {
-        List<bike> bikes = bikeService.getAvailableBikes(stationId);
-        return ResponseEntity.ok(bikes);
+    public ResponseEntity<List<Bike>> getAvailableBikes(@PathVariable String stationId) {
+        List<Bike> Bikes = bikeService.getAvailableBikes(stationId);
+        return ResponseEntity.ok(Bikes);
     }
     
 }
