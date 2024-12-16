@@ -5,6 +5,11 @@ import dev.mybike.mybike.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST controller for retrieving weather-related information.
+ * This controller provides an endpoint for fetching the current weather
+ * conditions and the current date/time for a specific location.
+ */
 @RestController
 @RequestMapping("/weather")
 public class WeatherController {

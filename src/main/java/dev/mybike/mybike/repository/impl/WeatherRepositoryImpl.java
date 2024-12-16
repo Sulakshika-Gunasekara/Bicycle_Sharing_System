@@ -12,6 +12,36 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * An implementation of the WeatherRepository interface that retrieves weather data
+ * from the OpenWeatherMap API. This class uses RestTemplate to fetch weather information
+ * and constructs Weather objects based on the API responses.
+ *
+ * This repository retrieves current weather data as well as weather forecasts by interacting
+ * with the OpenWeatherMap API endpoints. It integrates with a configuration-based setup
+ * for the API key and base URL.
+ *
+ * Responsibilities:
+ * - Fetches current weather information for a given location.
+ * - Parses API responses to construct Weather domain objects.
+ * - Incorporates spring-based dependency injection for configuration parameters.
+ *
+ * Fields:
+ * - apiKey: The API key for accessing the OpenWeatherMap API.
+ * - apiUrl: The base URL of the OpenWeatherMap API.
+ * - restTemplate: A default RestTemplate instance used to send HTTP requests.
+ *
+ * Methods:
+ * - findWeatherByLocation: Fetches current weather data for a specified location
+ *   and returns it as a Weather object.
+ * - findWeatherForecast: Overloaded methods to fetch weather forecast data for a location.
+ *
+ * Notes:
+ * - The findWeatherByLocation method directly issues an HTTP GET request to the OpenWeatherMap API.
+ * - Response parsing involves extracting details such as temperature, weather description,
+ *   and timestamp, then mapping them into a Weather object.
+ * - Using a default RestTemplate can be customized or replaced based on specific use-case requirements.
+ */
 @Repository
 public class WeatherRepositoryImpl implements WeatherRepository {
 

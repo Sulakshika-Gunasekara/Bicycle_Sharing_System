@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.mybike.mybike.model.DockingStation;
 import dev.mybike.mybike.service.DockingStationService;
 
+/**
+ * A REST controller for managing docking station-related operations.
+ * This controller provides endpoints for retrieving docking station data,
+ * checking dynamic pricing, and managing the activation state of docking stations.
+ */
 @RestController
 @RequestMapping("api/docking-station")
 public class DockingStationController {

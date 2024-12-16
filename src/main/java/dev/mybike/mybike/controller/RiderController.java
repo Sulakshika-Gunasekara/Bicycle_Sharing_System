@@ -1,6 +1,5 @@
 package dev.mybike.mybike.controller;
 
-
 import dev.mybike.mybike.model.Rider;
 import dev.mybike.mybike.service.RiderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing rider-related operations.
+ * This controller provides endpoints for accessing, creating,
+ * and deleting rider information.
+ */
 @RestController
 @RequestMapping("/api/riders")
 public class RiderController {

@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.mybike.mybike.model.Bike;
 import dev.mybike.mybike.service.BikeService;
 
+/**
+ * REST controller for managing bike-related operations.
+ * This controller provides endpoints for reporting issues,
+ * reserving bikes, tracking bike location, and retrieving available bikes.
+ */
 @RestController
 @RequestMapping("api/bike")
 @ControllerAdvice

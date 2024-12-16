@@ -10,6 +10,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
+/**
+ * Implementation of the RiderService interface that provides business logic
+ * for managing rider-related functionalities in a bike-sharing system.
+
+ * This service interacts with the RiderRepository to handle operations such as:
+ * - Retrieving all riders.
+ * - Fetching details of a specific rider by their identifier.
+ * - Creating a new rider.
+ * - Deleting an existing rider.
+
+ * The service includes logic to handle cases where a rider is not found in the system
+ * and ensures appropriate database operations for persistence.
+ */
 @Service
 public class RiderServiceImpl implements RiderService {
 

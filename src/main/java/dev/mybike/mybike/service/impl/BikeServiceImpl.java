@@ -8,6 +8,19 @@ import dev.mybike.mybike.service.BikeService;
 import dev.mybike.mybike.model.Bike;
 import dev.mybike.mybike.repository.BikeRepository;
 
+/**
+ * Implementation of the BikeService interface that provides business logic
+ * for managing bike-related functionalities in a bike-sharing system.
+ *
+ * This service interacts with the BikeRepository to handle operations such as:
+ * - Reporting bike issues.
+ * - Reserving bikes for users.
+ * - Tracking a specific bike's details.
+ * - Retrieving available bikes at a specific docking station.
+ *
+ * The service includes validation of bike availability and handles cases
+ * where the requested bike or data is not found.
+ */
 @Service
 public class BikeServiceImpl implements BikeService {
 

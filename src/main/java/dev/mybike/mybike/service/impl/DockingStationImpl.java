@@ -8,6 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+/**
+ * Implementation of the DockingStationService interface that provides the business logic
+ * for managing docking stations in the bike-sharing system.
+ *
+ * This service interacts with DockingStationRepository to perform CRUD operations
+ * and additional functionalities such as:
+ * - Retrieving a list of all docking stations.
+ * - Fetching details of a specific docking station by its identifier.
+ * - Deactivating a docking station.
+ * - Calculating dynamic pricing based on the availability of bikes at a station.
+ *
+ * This class includes logic to handle cases where a docking station is not found
+ * or where specific operational conditions must be validated, such as bike availability.
+ */
 @Service
 public class DockingStationImpl implements DockingStationService{
 
