@@ -11,7 +11,7 @@ import lombok.Data;
  * This class is used to manage bike-related information, including its availability,
  * current location, condition, and its association with a specific station.
  * It also includes an identifier for the bike and its unique ID in the system.
- *
+
  * Fields:
  * - id: The unique identifier for the bike in the database.
  * - bikeId: The unique bike identifier used within the system.

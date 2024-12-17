@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
  * This controller provides an endpoint for fetching the current weather
  * conditions and the current date/time for a specific location.
  */
+
 @RestController
 @RequestMapping("/weather")
 public class WeatherController {
@@ -26,6 +27,7 @@ public class WeatherController {
      * Returns the current weather conditions (e.g., whether it's cloudy, misty, etc.)
      * and the current date/time for the given location.
      */
+
     @GetMapping("/{location}")
     public Weather getWeatherForLocation(@PathVariable String location) {
         return weatherService.getCurrentWeather(location);

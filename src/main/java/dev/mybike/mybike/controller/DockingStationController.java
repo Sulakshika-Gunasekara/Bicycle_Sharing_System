@@ -18,6 +18,7 @@ import dev.mybike.mybike.service.DockingStationService;
  * This controller provides endpoints for retrieving docking station data,
  * checking dynamic pricing, and managing the activation state of docking stations.
  */
+
 @RestController
 @RequestMapping("api/docking-station")
 public class DockingStationController {

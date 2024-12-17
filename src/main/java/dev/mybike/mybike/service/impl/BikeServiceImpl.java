@@ -83,7 +83,7 @@ public List<Bike> getBikeByIsAvailable(Boolean isAvailable) {
 public Bike updateBikeStation(String bikeId, String oldStationId, String newStationId) {
     Bike bike = bikeRepository.findById(bikeId)
             .orElseThrow(() -> new RuntimeException("Bike not found."));
-    
+
     //update new staiton available bikes
     //update old station empty docks
     //update new station empty docks
@@ -91,17 +91,17 @@ public Bike updateBikeStation(String bikeId, String oldStationId, String newStat
     //update Bike station id
     DockingStation oldDockingStation = dockingStationRepository.findById(oldStationId)
             .orElseThrow(() -> new RuntimeException("Old Docking Station not found."));
-         
+
     oldDockingStation.setEmptyDocks(oldDockingStation.getEmptyDocks() + 1);
     oldDockingStation.setAvailableBikes(oldDockingStation.getAvailableBikes() - 1);
     dockingStationRepository.save(oldDockingStation);
-    
+
     DockingStation newDockingStation = dockingStationRepository.findById(newStationId)
             .orElseThrow(() -> new RuntimeException("New Docking Station not found."));
     newDockingStation.setEmptyDocks(newDockingStation.getEmptyDocks() - 1);
     newDockingStation.setAvailableBikes(newDockingStation.getAvailableBikes() + 1);
     dockingStationRepository.save(newDockingStation);
-    
+
     bike.setStationId(newStationId);
     return bikeRepository.save(bike);
 }

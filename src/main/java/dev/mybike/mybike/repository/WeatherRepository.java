@@ -27,6 +27,4 @@ public interface WeatherRepository {
     Weather findWeatherByLocation(String location);
 
     Weather findWeatherForecast(String location, int days);
-
-    List<Weather> findWeatherForecast(String location);
 }

@@ -18,5 +18,4 @@ public interface DockingStationService {
     DockingStation deactivateDockingStation(String stationId);
     double calculateDynamicPricing(String stationId);
 
-    
 } 
