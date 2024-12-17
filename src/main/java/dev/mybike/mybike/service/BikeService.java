@@ -11,13 +11,22 @@ import java.util.List;
  */
 public interface BikeService {
     
-    Bike reportBikeIssue(String bikeId, String issueType, String description);
+    List<Bike> getAllBikes();
 
+    Bike getBikeById(String bikeId);
+ 
+    // List<bike> getBikeByStationName(String stationName);
+ 
     Bike trackBike(String bikeId);
-
-    Bike reserveBike(String bikeId, String statoinId, int duration);
-
-    List<Bike> getAvailableBikes(String stationId);
+ 
+ 
+    Bike reportIssueBike(String bikeId, String issue);
+ 
+    Bike reserveBike(String bikeId);    //correctly run when only isAvailable is true. otherwise 500 curl error
+ 
+    List<Bike> getBikeByIsAvailable(Boolean isAvailabile);
+ 
+    Bike updateBikeStation(String bikeId, String oldStationId, String newStationId);
 
 
 }

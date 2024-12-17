@@ -4,22 +4,26 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import dev.mybike.mybike.service.BikeService;
 import dev.mybike.mybike.model.Bike;
+import dev.mybike.mybike.model.DockingStation;
 import dev.mybike.mybike.repository.BikeRepository;
+import dev.mybike.mybike.repository.DockingStationRepository;
 
 /**
  * Implementation of the BikeService interface that provides business logic
  * for managing bike-related functionalities in a bike-sharing system.
  *
  * This service interacts with the BikeRepository to handle operations such as:
- * - Reporting bike issues.
+ * - Reporting Bike issues.
  * - Reserving bikes for users.
  * - Tracking a specific bike's details.
  * - Retrieving available bikes at a specific docking station.
  *
- * The service includes validation of bike availability and handles cases
- * where the requested bike or data is not found.
+ * The service includes validation of Bike availability and handles cases
+ * where the requested Bike or data is not found.
  */
 @Service
 public class BikeServiceImpl implements BikeService {
@@ -27,35 +31,80 @@ public class BikeServiceImpl implements BikeService {
     @Autowired
     private BikeRepository bikeRepository;
 
+    @Autowired
+    private DockingStationRepository dockingStationRepository;
+
     @Override
-    public Bike reportBikeIssue(String bikeId, String issueType, String description){
-        Bike bike = bikeRepository.findById(bikeId)
-        .orElseThrow(() -> new IllegalArgumentException("Bike not found!"));
-        bike.setCondition("Issue: " + issueType + ", Description: " + description);
-        return bikeRepository.save(bike);
+    public List<Bike> getAllBikes() {
+        return bikeRepository.findAll();
     }
 
     @Override
-    public Bike reserveBike(String bikeId, String stationId, int duration) {
-        Bike bike = bikeRepository.findById(bikeId)
-                .orElseThrow(() -> new IllegalArgumentException("Bike not found!"));
-        if (!bike.isAvailable()) {
-            throw new IllegalArgumentException("Bike is already reserved.");
-        }
-        bike.setAvailable(false);
-        return bikeRepository.save(bike);
+    public Bike getBikeById(String bike) {
+        return bikeRepository.findById(bike)
+                .orElseThrow(() -> new IllegalArgumentException("Bike not found."));
     }
 
-    @Override
-    public Bike trackBike(String bikeId) {
-        return bikeRepository.findById(bikeId)
-                .orElseThrow(() -> new IllegalArgumentException("Bike not found!"));
-    }
+   @Override
+public Bike trackBike(String bikeId) {
+    Bike bike = bikeRepository.findById(bikeId)
+            .orElseThrow(() -> new IllegalArgumentException("Bike not found."));
+    // Add tracking logic here
+    return bike;
+}
 
-    @Override
-    public List<Bike> getAvailableBikes(String stationId) {
-        return bikeRepository.findByStationId(stationId);
-    }
+@Override
+public Bike reportIssueBike(String bikeId, String issue) {
+    Bike bike = bikeRepository.findById(bikeId)
+            .orElseThrow(() -> new IllegalArgumentException("Bike not found."));
+    // Add issue reporting logic here
+    bike.setCondition("Issue: " + issue);
+    return bikeRepository.save(bike);
+}
+
+@Override
+public Bike reserveBike(String bikeId){
+    Bike bike = bikeRepository.findById(bikeId)
+    .orElseThrow(() -> new IllegalArgumentException("Bike not found!"));
+if (!bike.isAvailable()) {
+throw new IllegalArgumentException("Bike is already reserved.");
+}
+bike.setAvailable(false);
+return bikeRepository.save(bike);
+}
+
+@Override
+public List<Bike> getBikeByIsAvailable(Boolean isAvailable) {
+    return bikeRepository.findByIsAvailable(isAvailable);
+}
+
+@Transactional
+@Override
+public Bike updateBikeStation(String bikeId, String oldStationId, String newStationId) {
+    Bike bike = bikeRepository.findById(bikeId)
+            .orElseThrow(() -> new RuntimeException("Bike not found."));
+    
+    //update new staiton available bikes
+    //update old station empty docks
+    //update new station empty docks
+    //update old station available bikes
+    //update Bike station id
+    DockingStation oldDockingStation = dockingStationRepository.findById(oldStationId)
+            .orElseThrow(() -> new RuntimeException("Old Docking Station not found."));
+         
+    oldDockingStation.setEmptyDocks(oldDockingStation.getEmptyDocks() + 1);
+    oldDockingStation.setAvailableBikes(oldDockingStation.getAvailableBikes() - 1);
+    dockingStationRepository.save(oldDockingStation);
+    
+    DockingStation newDockingStation = dockingStationRepository.findById(newStationId)
+            .orElseThrow(() -> new RuntimeException("New Docking Station not found."));
+    newDockingStation.setEmptyDocks(newDockingStation.getEmptyDocks() - 1);
+    newDockingStation.setAvailableBikes(newDockingStation.getAvailableBikes() + 1);
+    dockingStationRepository.save(newDockingStation);
+    
+    bike.setStationId(newStationId);
+    return bikeRepository.save(bike);
+}
 
 
 

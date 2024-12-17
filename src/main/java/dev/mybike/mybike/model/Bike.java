@@ -22,7 +22,7 @@ import lombok.Data;
  * - condition: The current condition of the bike, specifying whether it is in good
  *   condition, requires repair, etc.
  */
-@Document(collation = "bike")
+@Document(collection = "bike")
 @Data
 public class Bike {
 
