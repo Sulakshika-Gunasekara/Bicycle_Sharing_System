@@ -5,7 +5,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
 
-
 /**
  * Represents a bike in the bike-sharing system.
  * This class is used to manage bike-related information, including its availability,
