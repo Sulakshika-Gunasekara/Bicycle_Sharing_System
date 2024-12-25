@@ -1,16 +1,16 @@
 package dev.mybike.mybike.repository.impl;
 
-import dev.mybike.mybike.model.Weather;
-import dev.mybike.mybike.repository.WeatherRepository;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.List;
-import java.util.Map;
+import dev.mybike.mybike.model.Weather;
+import dev.mybike.mybike.repository.WeatherRepository;
 
 /**
  * An implementation of the WeatherRepository interface that retrieves weather data
