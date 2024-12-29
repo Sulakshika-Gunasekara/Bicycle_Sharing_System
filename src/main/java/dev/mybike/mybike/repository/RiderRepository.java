@@ -1,7 +1,10 @@
 package dev.mybike.mybike.repository;
 
-import dev.mybike.mybike.model.Rider;
+import java.util.Optional;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
+
+import dev.mybike.mybike.model.Rider; 
 
 /**
  * Repository interface for managing Rider entities using MongoDB.
@@ -22,4 +25,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  *   - String: The type of the unique identifier for the Rider entity.
  */
 public interface RiderRepository extends MongoRepository<Rider, String> {
+    Optional<Rider> findByUsername(String username);
 }

@@ -1,8 +1,8 @@
 package dev.mybike.mybike.service;
 
-import dev.mybike.mybike.model.Rider;
-
 import java.util.List;
+
+import dev.mybike.mybike.model.Rider;
 
 /**
  * Service interface for managing rider-related functionalities in a bike-sharing system.
@@ -22,5 +22,6 @@ public interface RiderService {
 
     void deleteRider(String id);
 
+    Rider loadRiderByUsername(String username);
+
 }
-//comment
