@@ -29,20 +29,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .authorizeRequests(auth -> auth
-                .requestMatchers("/api/riders/register").permitAll()
-                .requestMatchers("/api/riders/login").permitAll()
-                .requestMatchers("/api/riders/**").hasRole("RIDER")
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .permitAll()
-            );
+                .csrf(csrf -> csrf.disable())
+                .authorizeRequests(auth -> auth
+                        .requestMatchers("/api/riders/register").permitAll()
+                        .requestMatchers("/api/riders/login").permitAll()
+                        .requestMatchers("/api/riders/**").hasRole("RIDER")
+                        .anyRequest().authenticated())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .permitAll())
+                .logout(logout -> logout
+                        .permitAll());
         return http.build();
     }
 
@@ -52,13 +49,16 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     // Remove circular dependency by deferring bean initialization using @Lazy
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth, @Lazy PasswordEncoder passwordEncoder) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth, @Lazy PasswordEncoder passwordEncoder)
+            throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
+
 }
