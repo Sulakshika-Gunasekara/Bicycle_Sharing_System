@@ -17,4 +17,10 @@ public interface WalletService {
 
     double calculatePayment(Trip trip, Rider rider);
 
+    double addFunds(Rider rider, double amount);
+
+    double deductFunds(Rider rider, double amount);
+
+    double getBalance(Rider rider);
+
 }

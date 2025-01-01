@@ -24,7 +24,8 @@ public class WeatherController {
 
     /**
      * GET /weather/{location}
-     * Returns the current weather conditions (e.g., whether it's cloudy, misty, etc.)
+     * Returns the current weather conditions (e.g., whether it's cloudy, misty,
+     * etc.)
      * and the current date/time for the given location.
      */
 
