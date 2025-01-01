@@ -2,7 +2,6 @@ package dev.mybike.mybike.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,6 @@ public class RiderServiceImpl implements RiderService {
     private final RiderRepository riderRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
     public RiderServiceImpl(RiderRepository riderRepository, PasswordEncoder passwordEncoder) {
         this.riderRepository = riderRepository;
         this.passwordEncoder = passwordEncoder;
