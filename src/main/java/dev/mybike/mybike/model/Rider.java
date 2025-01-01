@@ -24,7 +24,7 @@ public class Rider {
     private String mobileNumber;
     private String nicImagePath;
     private String creditCardDetails;
-    private double points;
+    private double walletBalance;
     private String location;
     private List<String> roles; // Add roles attribute
 
