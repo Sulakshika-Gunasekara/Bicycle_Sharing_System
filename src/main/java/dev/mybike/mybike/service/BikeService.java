@@ -21,9 +21,10 @@ public interface BikeService {
 
     Bike reportIssueBike(String bikeId, String issue);
 
-    Bike reserveBike(String bikeId); // correctly run when only isAvailable is true. otherwise 500 curl error
+    Bike reserveBike(String bikeId, String oldStationId); // correctly run when only isAvailable is true. otherwise 500
+                                                          // curl error
 
-    Bike returnBike(String bikeId);
+    Bike returnBike(String bikeId, String newStationId);
 
     List<Bike> getBikeByIsAvailable(Boolean isAvailabile);
 

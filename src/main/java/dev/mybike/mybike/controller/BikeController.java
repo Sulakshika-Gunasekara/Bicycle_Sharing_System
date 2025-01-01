@@ -62,7 +62,7 @@ public class BikeController {
         // return ResponseEntity.ok(bike);
         try {
             // Call the service method to reserve the bike
-            Bike bike = bikeService.reserveBike(bikeId);
+            Bike bike = bikeService.reserveBike(bikeId, "oldStationId");
             return ResponseEntity.ok(bike); // Return 200 OK with the bike details
         } catch (IllegalArgumentException ex) {
             // Handle exceptions and return 400 Bad Request with the error message
@@ -72,7 +72,7 @@ public class BikeController {
 
     @PostMapping("return/{bikeId}")
     public ResponseEntity<Bike> returnBike(@PathVariable String bikeId) {
-        Bike bike = bikeService.returnBike(bikeId);
+        Bike bike = bikeService.returnBike(bikeId, "newStationId");
         return ResponseEntity.ok(bike);
     }
 
