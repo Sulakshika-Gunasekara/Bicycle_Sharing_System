@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.mybike.mybike.model.Rider;
 import dev.mybike.mybike.service.RiderService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 @RestController
 @RequestMapping("/api/riders")
+@CrossOrigin(origins = "http://localhost:5173") // Enable CORS for React frontend
 public class RiderController {
 
     @Autowired
@@ -51,16 +54,20 @@ public class RiderController {
     }
 
     @PostMapping("/register")
-    public Rider registerRider(@RequestBody Rider rider) {
-        return riderService.createRider(rider);
+    public ResponseEntity<String> registerRider(@RequestBody Rider rider) {
+        Rider createdRider = riderService.createRider(rider);
+        if (createdRider != null) {
+            return ResponseEntity.status(201).body("Registration Successful");
+        } else {
+            return ResponseEntity.status(400).body("Registration failed. Try again.");
+        }
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> loginRider(@RequestBody Rider rider) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(rider.getUsername(), rider.getPassword())
-            );
+                    new UsernamePasswordAuthenticationToken(rider.getUsername(), rider.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return ResponseEntity.ok("Login successful");
         } catch (Exception e) {

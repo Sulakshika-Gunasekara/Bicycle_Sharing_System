@@ -27,5 +27,4 @@ public class Rider {
     private double points;
     private String location;
     private List<String> roles; // Add roles attribute
-
 }
