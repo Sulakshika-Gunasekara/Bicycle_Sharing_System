@@ -2,7 +2,6 @@ package dev.mybike.mybike.service;
 
 import dev.mybike.mybike.model.Rider;
 import dev.mybike.mybike.model.Trip;
-import dev.mybike.mybike.model.Bike;
 
 /**
  * Service interface for managing wallet operations in a bike-sharing system.

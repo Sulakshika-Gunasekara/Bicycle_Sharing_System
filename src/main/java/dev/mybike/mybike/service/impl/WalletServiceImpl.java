@@ -1,7 +1,7 @@
 package dev.mybike.mybike.service.impl;
 
 import dev.mybike.mybike.model.Trip;
-import dev.mybike.mybike.model.Bike;
+
 import dev.mybike.mybike.model.Rider;
 import dev.mybike.mybike.service.WalletService;
 import org.springframework.stereotype.Service;
