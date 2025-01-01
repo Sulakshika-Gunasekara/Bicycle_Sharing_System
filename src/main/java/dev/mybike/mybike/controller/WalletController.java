@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,4 +52,44 @@ public class WalletController {
 
         }
     }
+
+    @PostMapping("/addFunds/{riderId}/{amount}")
+    public ResponseEntity<String> addFunds(@PathVariable String riderId, @PathVariable double amount) {
+        try {
+            Rider rider = new Rider();
+            rider.setId(riderId);
+            double newBalance = walletService.addFunds(rider, amount);
+            return ResponseEntity.ok("Funds added successfully. New balance: " + newBalance);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error adding funds: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/deductFunds/{riderId}/{amount}")
+    public ResponseEntity<String> deductFunds(@PathVariable String riderId, @PathVariable double amount) {
+        try {
+            Rider rider = new Rider();
+            rider.setId(riderId);
+            double newBalance = walletService.deductFunds(rider, amount);
+            return ResponseEntity.ok("Funds deducted successfully. New balance: " + newBalance);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error deducting funds: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/getBalance/{riderId}")
+    public ResponseEntity<String> getBalance(@PathVariable String riderId) {
+        try {
+            Rider rider = new Rider();
+            rider.setId(riderId);
+            double balance = walletService.getBalance(rider);
+            return ResponseEntity.ok("Current balance: " + balance);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error getting balance: " + e.getMessage());
+        }
+    }
+
 }

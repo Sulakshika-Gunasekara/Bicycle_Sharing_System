@@ -22,7 +22,7 @@ public interface BikeService {
     Bike reportIssueBike(String bikeId, String issue);
 
     Bike reserveBike(String bikeId, String oldStationId); // correctly run when only isAvailable is true. otherwise 500
-                                                          // curl error
+                                                          // error
 
     Bike returnBike(String bikeId, String newStationId);
 
