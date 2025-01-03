@@ -12,22 +12,50 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.mybike.mybike.model.Rider;
 import dev.mybike.mybike.model.Trip;
-import dev.mybike.mybike.service.WalletService;
+import dev.mybike.mybike.service.RiderService;
 import dev.mybike.mybike.service.TripService;
 
 @RestController
-@RequestMapping("api/wallet")
+@RequestMapping("api/trip")
 @ControllerAdvice
-public class WalletController {
-
-    @Autowired
-    private WalletService walletService;
+public class TripController {
 
     @Autowired
     private TripService tripService;
 
+    @Autowired
+    private RiderService riderService;
+
+    // @PostMapping("/calculatePayment/{tripId}")
+    // public ResponseEntity<String> calculatePayment(@PathVariable String tripId) {
+    // try {
+    // Trip trip = tripService.getTripById(tripId);
+
+    // if (trip == null) {
+    // return ResponseEntity.badRequest().body("Trip not found.");
+    // }
+
+    // // Retrieve the rider associated with the trip
+    // Rider rider = trip.getRider();
+    // if (rider == null) {
+    // return ResponseEntity.badRequest().body("Rider not found.");
+    // }
+
+    // // Calculate payment and deduct from rider's wallet
+    // double paymentAmount = walletService.calculatePayment(trip, rider);
+    // return ResponseEntity.ok("Payment successful. New balance: " +
+    // rider.getWalletBalance()
+    // + ". Payment amount: " + paymentAmount);
+
+    // } catch (Exception e) {
+    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    // .body("Error calculating payment" + e.getMessage());
+
+    // }
+    // }
+
     @PostMapping("/calculatePayment/{tripId}")
-    public ResponseEntity<String> calculatePayment(@PathVariable String tripId) {
+    public ResponseEntity<String> calculatePayment(@PathVariable String tripId, @PathVariable String riderId) {
         try {
             Trip trip = tripService.getTripById(tripId);
 
@@ -36,13 +64,13 @@ public class WalletController {
             }
 
             // Retrieve the rider associated with the trip
-            Rider rider = trip.getRider();
+            Rider rider = riderService.getRiderById(riderId);
             if (rider == null) {
                 return ResponseEntity.badRequest().body("Rider not found.");
             }
 
             // Calculate payment and deduct from rider's wallet
-            double paymentAmount = walletService.calculatePayment(trip, rider);
+            double paymentAmount = tripService.calculatePayment(trip, rider);
             return ResponseEntity.ok("Payment successful. New balance: " + rider.getWalletBalance()
                     + ". Payment amount: " + paymentAmount);
 
@@ -58,7 +86,7 @@ public class WalletController {
         try {
             Rider rider = new Rider();
             rider.setId(riderId);
-            double newBalance = walletService.addFunds(rider, amount);
+            double newBalance = tripService.addFunds(rider, amount);
             return ResponseEntity.ok("Funds added successfully. New balance: " + newBalance);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -71,7 +99,7 @@ public class WalletController {
         try {
             Rider rider = new Rider();
             rider.setId(riderId);
-            double newBalance = walletService.deductFunds(rider, amount);
+            double newBalance = tripService.deductFunds(rider, amount);
             return ResponseEntity.ok("Funds deducted successfully. New balance: " + newBalance);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -84,7 +112,7 @@ public class WalletController {
         try {
             Rider rider = new Rider();
             rider.setId(riderId);
-            double balance = walletService.getBalance(rider);
+            double balance = tripService.getBalance(rider);
             return ResponseEntity.ok("Current balance: " + balance);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

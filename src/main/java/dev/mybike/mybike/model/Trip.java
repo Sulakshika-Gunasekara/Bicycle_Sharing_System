@@ -23,6 +23,4 @@ public class Trip {
     private Date startTime;
     private Date endTime;
 
-    private Rider rider;
-
 }
