@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import io.swagger.v3.oas.models.PathItem.HttpMethod;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
@@ -34,6 +37,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/riders/register").permitAll()
                         .requestMatchers("/api/riders/login").permitAll()
                         .requestMatchers("/api/riders/**").hasRole("RIDER")
+                        .requestMatchers("/weather/**").permitAll() 
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
