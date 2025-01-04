@@ -22,6 +22,6 @@ public interface RiderService {
 
     void deleteRider(String id);
 
-    Rider loadRiderByUsername(String username);
+    Rider loadRiderByRidername(String Ridername);
 
 }

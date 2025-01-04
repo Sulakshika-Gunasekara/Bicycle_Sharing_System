@@ -59,7 +59,7 @@ public class RiderController {
     public ResponseEntity<String> loginRider(@RequestBody Rider rider) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(rider.getUsername(), rider.getPassword())
+                new UsernamePasswordAuthenticationToken(rider.getRidername(), rider.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return ResponseEntity.ok("Login successful");

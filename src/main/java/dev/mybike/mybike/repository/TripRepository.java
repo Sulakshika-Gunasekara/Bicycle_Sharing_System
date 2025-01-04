@@ -7,5 +7,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import dev.mybike.mybike.model.Trip;
 
 public interface TripRepository extends MongoRepository<Trip, String> {
-    Optional<Trip> findByUsername(String username);
+    Optional<Trip> findByRidername(String Ridername);
 }
