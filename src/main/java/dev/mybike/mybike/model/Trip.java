@@ -2,25 +2,19 @@ package dev.mybike.mybike.model;
 
 import java.util.Date;
 
-import lombok.Data;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- * Represents a trip of one bike in the system.
- * This class is used to manage trip time duration information, including the
- * start and end time of a trip.
- * Main purpose for this class to calculate the trip duration and cost.
- */
-
-@Document(collection = "trip")
+import lombok.Data;
 @Data
+@Document(collection = "trips")
 public class Trip {
-
     @Id
     private String id;
-    private Date startTime;
-    private Date endTime;
+    private String username;
+    private String destination;
+    private Date startTime; // Change to Date
+    private Date endTime;   // Change to Date
 
+    // Getters and setters
 }
