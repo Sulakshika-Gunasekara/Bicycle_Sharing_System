@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dev.mybike.mybike.service.BikeService;
 import dev.mybike.mybike.model.Bike;
 import dev.mybike.mybike.model.DockingStation;
 import dev.mybike.mybike.model.Trip;
 import dev.mybike.mybike.repository.BikeRepository;
 import dev.mybike.mybike.repository.DockingStationRepository;
 import dev.mybike.mybike.repository.TripRepository;
+import dev.mybike.mybike.service.BikeService;
 
 /**
  * Implementation of the BikeService interface that provides business logic
@@ -80,7 +80,8 @@ public class BikeServiceImpl implements BikeService {
         // set start time
         Trip trip = tripRepository.findById(bikeId)
                 .orElseThrow(() -> new IllegalArgumentException("Trip not found."));
-        trip.setStartTime(new Date(System.currentTimeMillis()));
+        Date currentTime = new Date(System.currentTimeMillis());
+        trip.setStartTime(currentTime);
         tripRepository.save(trip);
 
         // update new staiton available bikes
