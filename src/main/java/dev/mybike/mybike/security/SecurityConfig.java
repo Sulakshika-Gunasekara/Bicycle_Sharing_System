@@ -28,8 +28,8 @@ public class SecurityConfig {
         return http.csrf().disable()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll() // Public endpoints for login/register
-                        .requestMatchers("/competitions/admin/**").hasAuthority("ADMIN") // Admin-only
-                        .requestMatchers("/competitions/user/**").hasAuthority("USER") // User-only
+                        .requestMatchers("/mybike/admin/**").hasAuthority("ADMIN") // Admin-only
+                        .requestMatchers("/mybike/rider/**").hasAuthority("USER") // User-only
                         .requestMatchers("/weather/**").permitAll()
                         .requestMatchers("/feedback/user/**").hasAuthority("USER")
                         .anyRequest().authenticated())
