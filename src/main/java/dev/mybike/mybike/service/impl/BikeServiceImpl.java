@@ -69,7 +69,7 @@ public class BikeServiceImpl implements BikeService {
     }
 
     @Override
-    public Bike reserveBike(String bikeId) {
+    public Bike reserveBike(String bikeId, String oldStationId) {
         Bike bike = bikeRepository.findById(bikeId)
                 .orElseThrow(() -> new IllegalArgumentException("Bike not found."));
         if (!bike.isAvailable()) {
@@ -83,11 +83,23 @@ public class BikeServiceImpl implements BikeService {
         trip.setStartTime(new Date(System.currentTimeMillis()));
         tripRepository.save(trip);
 
+        // update new staiton available bikes
+        // update old station empty docks
+        // update new station empty docks
+        // update old station available bikes
+        // update Bike station id
+        DockingStation oldDockingStation = dockingStationRepository.findById(oldStationId)
+                .orElseThrow(() -> new RuntimeException("Old Docking Station not found."));
+
+        oldDockingStation.setEmptyDocks(oldDockingStation.getEmptyDocks() + 1);
+        oldDockingStation.setAvailableBikes(oldDockingStation.getAvailableBikes() - 1);
+        dockingStationRepository.save(oldDockingStation);
+
         return bikeRepository.save(bike);
     }
 
     @Override
-    public Bike returnBike(String bikeId) {
+    public Bike returnBike(String bikeId, String newStationId) {
         Bike bike = bikeRepository.findById(bikeId)
                 .orElseThrow(() -> new IllegalArgumentException("Bike not found."));
         if (bike.isAvailable()) {
@@ -100,6 +112,20 @@ public class BikeServiceImpl implements BikeService {
                 .orElseThrow(() -> new IllegalArgumentException("Trip not found."));
         trip.setEndTime(new Date(System.currentTimeMillis()));
         tripRepository.save(trip);
+
+        // update new staiton available bikes
+        // update old station empty docks
+        // update new station empty docks
+        // update old station available bikes
+        // update Bike station id
+        DockingStation newDockingStation = dockingStationRepository.findById(newStationId)
+                .orElseThrow(() -> new RuntimeException("New Docking Station not found."));
+        newDockingStation.setEmptyDocks(newDockingStation.getEmptyDocks() - 1);
+        newDockingStation.setAvailableBikes(newDockingStation.getAvailableBikes() + 1);
+        dockingStationRepository.save(newDockingStation);
+
+        bike.setStationId(newStationId);
+
         return bikeRepository.save(bike);
     }
 
