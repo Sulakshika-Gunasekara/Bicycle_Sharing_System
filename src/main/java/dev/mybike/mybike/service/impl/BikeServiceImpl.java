@@ -21,7 +21,7 @@ import dev.mybike.mybike.service.BikeService;
  *
  * This service interacts with the BikeRepository to handle operations such as:
  * - Reporting Bike issues.
- * - Reserving bikes for users.
+ * - Reserving bikes for Riders.
  * - Tracking a specific bike's details.
  * - Retrieving available bikes at a specific docking station.
  *

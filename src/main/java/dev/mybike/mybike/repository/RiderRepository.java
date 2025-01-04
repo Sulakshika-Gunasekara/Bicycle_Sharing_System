@@ -25,5 +25,9 @@ import dev.mybike.mybike.model.Rider;
  *   - String: The type of the unique identifier for the Rider entity.
  */
 public interface RiderRepository extends MongoRepository<Rider, String> {
-    Optional<Rider> findByUsername(String username);
+    Optional<Rider> findByRidername(String Ridername);
+
+    Optional<Rider> findByEmail(String email);
+
+    Optional<Rider> findByVerificationCode(String verificationCode);
 }
