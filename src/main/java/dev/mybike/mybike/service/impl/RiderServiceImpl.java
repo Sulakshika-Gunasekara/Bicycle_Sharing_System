@@ -43,7 +43,7 @@ public class RiderServiceImpl implements RiderService {
     }
 
     @Override
-    public Rider loadRiderByUsername(String username) {
-        return riderRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("Rider not found"));
+    public Rider loadRiderByRidername(String Ridername) {
+        return riderRepository.findByRidername(Ridername).orElseThrow(() -> new RuntimeException("Rider not found"));
     }
 }
