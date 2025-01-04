@@ -30,7 +30,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll() // Public endpoints for login/register
                         .requestMatchers("/competitions/admin/**").hasAuthority("ADMIN") // Admin-only
                         .requestMatchers("/competitions/user/**").hasAuthority("USER") // User-only
-                        .requestMatchers("/feedback/competitions/**").permitAll()
+                        .requestMatchers("/weather/**").permitAll()
                         .requestMatchers("/feedback/user/**").hasAuthority("USER")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

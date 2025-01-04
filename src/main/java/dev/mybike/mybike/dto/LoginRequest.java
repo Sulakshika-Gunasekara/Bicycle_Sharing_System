@@ -1,23 +1,23 @@
 package dev.mybike.mybike.dto;
 
 public class LoginRequest {
-    private String Ridername;
+    private String ridername;
     private String password;
 
     public LoginRequest() {
     }
 
-    public LoginRequest(String Ridername, String password) {
-        this.Ridername = Ridername;
+    public LoginRequest(String ridername, String password) {
+        this.ridername = ridername;
         this.password = password;
     }
 
     public String getRidername() {
-        return Ridername;
+        return ridername;
     }
 
-    public void setRidername(String Ridername) {
-        this.Ridername = Ridername;
+    public void setRidername(String ridername) {
+        this.ridername = ridername;
     }
 
     public String getPassword() {

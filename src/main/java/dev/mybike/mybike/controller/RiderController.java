@@ -1,70 +1,56 @@
 package dev.mybike.mybike.controller;
 
-import java.util.List;
-
+import dev.mybike.mybike.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.mybike.mybike.model.Rider;
-import dev.mybike.mybike.service.RiderService;
+import java.util.Set;
 
 @RestController
-@RequestMapping("/api/riders")
+@RequestMapping("/auth")
 public class RiderController {
 
     @Autowired
-    private RiderService riderService;
+    private JwtUtil jwtUtil;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    @Value("${role.admin}")
+    private String ADMIN;
 
-    @GetMapping
-    public List<Rider> getAllRiders() {
-        return riderService.getAllRiders();
-    }
+    @Value("${role.user}")
+    private String USER;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Rider> getRiderById(@PathVariable String id) {
-        return ResponseEntity.ok(riderService.getRiderById(id));
-    }
+    //Endpoint to access user protected resources
+    @GetMapping("/protected-data")
+    public ResponseEntity<String> getProtectedData(@RequestHeader("Authorization") String token){
+        if(token != null && token.startsWith("Bearer ")){
+            String jwtToken = token.substring(7);
 
-    @PostMapping
-    public Rider createRider(@RequestBody Rider rider) {
-        return riderService.createRider(rider);
-    }
+            try{
+                if(jwtUtil.isTokenVaild(jwtToken)){
+                    String username = jwtUtil.extractUsername(jwtToken);
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRider(@PathVariable String id) {
-        riderService.deleteRider(id);
-        return ResponseEntity.noContent().build();
-    }
+                    Set<String> roles = jwtUtil.extractRoles(jwtToken);
 
-    @PostMapping("/register")
-    public Rider registerRider(@RequestBody Rider rider) {
-        return riderService.createRider(rider);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<String> loginRider(@RequestBody Rider rider) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(rider.getRidername(), rider.getPassword())
-            );
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            return ResponseEntity.ok("Login successful");
-        } catch (Exception e) {
-            return ResponseEntity.status(401).body("Invalid credentials");
+                    if(roles.contains(ADMIN)){
+                        return ResponseEntity.ok("Welcome "+username+" Here is the "+roles+" Specific data");
+                    }else if(roles.contains(USER)){
+                        return ResponseEntity.ok("Welcome "+username+" Here is the "+roles+" Specific data");
+                    }
+                    else {
+                        return ResponseEntity.status(403).body("Access Denied");
+                    }
+                }
+            }catch (Exception ex){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invaild Token");
+            }
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization Header missing or invalid");
     }
+
 }

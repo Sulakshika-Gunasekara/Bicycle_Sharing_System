@@ -76,7 +76,17 @@ public class AuthController {
 
         return ResponseEntity.ok("Rider registered successfully. Please verify your email.");
     }
-
+    /*
+    {
+        "ridername": "testuser",
+        "password": "testpassword",
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "himalgeethanjana18@gmail.com",
+        "mobileNumber": "+1234567890",
+        "roles": ["RIDER"]
+    }
+   */
     @PostMapping("/verify")
     public ResponseEntity<String> verifyRider(@RequestBody VerifyRequest verifyRequest) {
         Optional<Rider> riderOptional = riderRepository.findByVerificationCode(verifyRequest.getVerificationCode());
@@ -97,7 +107,11 @@ public class AuthController {
 
         return ResponseEntity.ok("Account verified successfully");
     }
-
+    /*
+    {
+        "verificationCode": "123456"
+    }
+    */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
@@ -128,7 +142,12 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid ridername or password");
         }
     }
-
+    /*
+    {
+        "ridername": "testuser",
+        "password": "testpassword"
+    }
+    */
 
     @PostMapping("/resend-verification")
     public ResponseEntity<String> resendVerification(@RequestParam String email) {
