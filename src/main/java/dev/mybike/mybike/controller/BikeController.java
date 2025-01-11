@@ -3,15 +3,14 @@ package dev.mybike.mybike.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,31 +30,36 @@ public class BikeController {
     @Autowired
     private BikeService bikeService;
 
-    @GetMapping
+    @PreAuthorize("hasRole('RIDER','ADMIN')")
+    @GetMapping("/any/all")
     public ResponseEntity<List<Bike>> getAllBikes() {
         List<Bike> bikes = bikeService.getAllBikes();
         return ResponseEntity.ok(bikes);
     }
 
-    @GetMapping("/{bikeId}")
+    @PreAuthorize("hasRole('RIDER','ADMIN')")
+    @GetMapping("/any/{bikeId}")
     public ResponseEntity<Bike> getBikeById(@PathVariable String bikeId) {
         Bike bike = bikeService.getBikeById(bikeId);
         return ResponseEntity.ok(bike);
     }
 
-    @GetMapping("/track/{bikeId}")
+    @PreAuthorize("hasRole('ADMIN','RIDER')")
+    @GetMapping("/admin/track/{bikeId}")
     public ResponseEntity<Bike> trackBike(@PathVariable String bikeId) {
         Bike bike = bikeService.trackBike(bikeId);
         return ResponseEntity.ok(bike);
     }
 
-    @PostMapping("/reportIssue/{bikeId}/{issue}")
+    @PreAuthorize("hasRole('RIDER')")
+    @PostMapping("/rider/reportIssue/{bikeId}/{issue}")
     public ResponseEntity<Bike> reportIssueBike(@PathVariable String bikeId, @PathVariable String issue) {
         Bike bike = bikeService.reportIssueBike(bikeId, issue);
         return ResponseEntity.ok(bike);
     }
 
-    @PostMapping("reserve/{bikeId}")
+    @PreAuthorize("hasRole('RIDER')")
+    @PostMapping("/rider/reserve/{bikeId}")
     public ResponseEntity<Bike> reserveBike(@PathVariable String bikeId) {
         // bike bike = bikeService.reserveBike(bikeId);
         // return ResponseEntity.ok(bike);
@@ -69,19 +73,22 @@ public class BikeController {
         }
     }
 
-    @PostMapping("return/{bikeId}")
+    @PreAuthorize("hasRole('RIDER')")
+    @PostMapping("/rider/return/{bikeId}")
     public ResponseEntity<Bike> returnBike(@PathVariable String bikeId) {
         Bike bike = bikeService.returnBike(bikeId, "newStationId");
         return ResponseEntity.ok(bike);
     }
 
-    @GetMapping("/isAvailable/{isAvailable}")
+    @PreAuthorize("hasRole('RIDER','ADMIN')")
+    @GetMapping("/any/isAvailable/{isAvailable}")
     public ResponseEntity<List<Bike>> getBikeByIsAvailable(@PathVariable Boolean isAvailable) {
         List<Bike> bikes = bikeService.getBikeByIsAvailable(isAvailable);
         return ResponseEntity.ok(bikes);
     }
 
-    @PutMapping("/updateBikeStation/{bikeId}/{oldStationId}/{newStationId}")
+    @PreAuthorize("hasRole('RIDER')")
+    @PutMapping("/admin/updateBikeStation/{bikeId}/{oldStationId}/{newStationId}")
     public ResponseEntity<Bike> updateBikeStation(@PathVariable String bikeId, @PathVariable String oldStationId,
             @PathVariable String newStationId) {
         Bike bike = bikeService.updateBikeStation(bikeId, oldStationId, newStationId);
