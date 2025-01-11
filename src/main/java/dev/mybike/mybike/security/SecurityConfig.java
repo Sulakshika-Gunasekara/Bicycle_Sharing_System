@@ -28,10 +28,11 @@ public class SecurityConfig {
         return http.csrf().disable()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll() // Public endpoints for login/register
-                        .requestMatchers("/mybike/admin/**").hasAuthority("ADMIN") // Admin-only
-                        .requestMatchers("/mybike/rider/**").hasAuthority("USER") // User-only
+                        .requestMatchers("/api/bike/admin/**").hasAuthority("ADMIN") // Admin-only
+                        .requestMatchers("/api/bike/rider/**").hasAuthority("RIDER") // User-only
+                        .requestMatchers("/api/bike/any/**").hasAnyAuthority("ADMIN", "RIDER") // Admin and Rider
                         .requestMatchers("/weather/**").permitAll()
-                        .requestMatchers("/feedback/user/**").hasAuthority("USER")
+                        .requestMatchers("/feedback/user/**").hasAuthority("RIDER")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
