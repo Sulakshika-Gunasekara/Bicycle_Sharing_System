@@ -31,6 +31,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/bike/admin/**").hasAuthority("ADMIN") // Admin-only
                         .requestMatchers("/api/bike/rider/**").hasAuthority("RIDER") // User-only
                         .requestMatchers("/api/bike/any/**").hasAnyAuthority("ADMIN", "RIDER") // Admin and Rider
+                        .requestMatchers("/api/docking-station/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/docking-station/rider/**").hasAuthority("RIDER")
+                        .requestMatchers("/api/docking-station/any/**").hasAnyAuthority("ADMIN", "RIDER")
                         .requestMatchers("/weather/**").permitAll()
                         .requestMatchers("/feedback/user/**").hasAuthority("RIDER")
                         .anyRequest().authenticated())
