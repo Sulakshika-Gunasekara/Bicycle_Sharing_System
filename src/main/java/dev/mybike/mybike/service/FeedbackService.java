@@ -6,7 +6,7 @@ import dev.mybike.mybike.model.Feedback;
 
 public interface FeedbackService {
 
-    Feedback addFeedback(String customerId, String feedback, int rating, String date);
+    Feedback addFeedback(String feedback, int rating, String date);
 
     Feedback getFeedbackById(String feedbackId);
 
