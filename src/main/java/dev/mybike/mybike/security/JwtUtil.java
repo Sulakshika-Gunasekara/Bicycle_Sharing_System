@@ -1,25 +1,27 @@
 package dev.mybike.mybike.security;
 
-import dev.mybike.mybike.model.Role;
-import dev.mybike.mybike.model.Rider;
-import dev.mybike.mybike.repository.RiderRepository;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Component;
-
-import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.crypto.SecretKey;
+
+import org.springframework.stereotype.Component;
+
+import dev.mybike.mybike.model.Rider;
+import dev.mybike.mybike.model.Role;
+import dev.mybike.mybike.repository.RiderRepository;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+
 @Component
 public class JwtUtil {
 
     private static final SecretKey secretKey = Keys.hmacShaKeyFor(
-            "my-super-secret-key-my-super-secret-key-my-super-secret-key-my-key-123".getBytes());
+            "7e59b2f6f3c8e6e917cb82da45a9b1f4d8f3a7e61e71a5d2f4d6abcb1e4f6e5a".getBytes());
 
     // Expiration - 1 day
     private final int jwtExpirationMs = 86400000;
