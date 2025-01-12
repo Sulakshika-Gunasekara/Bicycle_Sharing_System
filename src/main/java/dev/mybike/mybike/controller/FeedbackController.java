@@ -25,7 +25,7 @@ public class FeedbackController {
 
     @PostMapping("/addFeedback")
     public ResponseEntity<Feedback> addFeedback(@RequestBody Feedback feedback) {
-        feedbackService.addFeedback(feedback.getCustomerId(), feedback.getFeedback(), feedback.getRating(),
+        feedbackService.addFeedback(feedback.getFeedback(), feedback.getRating(),
                 feedback.getDate());
         return ResponseEntity.ok(feedback);
     }
