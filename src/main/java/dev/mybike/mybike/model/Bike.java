@@ -29,8 +29,8 @@ import lombok.Data;
 public class Bike {
 
     @Id
-    private String id;
-    private String bikeId;
+    private String _id;
+
     private String stationId;
     private boolean isAvailable;
     private String currentLocationLatitude;

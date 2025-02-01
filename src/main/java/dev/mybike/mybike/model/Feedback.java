@@ -11,7 +11,7 @@ public class Feedback {
 
     @Id
     private String id;
-    private String customerId;
+
     private String feedback;
     private int rating;
     private String date;
