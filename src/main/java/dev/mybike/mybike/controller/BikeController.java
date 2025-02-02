@@ -44,6 +44,13 @@ public class BikeController {
         return ResponseEntity.ok(bike);
     }
 
+    @PreAuthorize("hasRole('RIDER','ADMIN')")
+    @GetMapping("/any/station/{stationId}")
+    public ResponseEntity<List<Bike>> getBikeByStationId(@PathVariable String stationId) {
+        List<Bike> bikes = bikeService.getBikeByStationId(stationId);
+        return ResponseEntity.ok(bikes);
+    }
+
     @PreAuthorize("hasRole('ADMIN','RIDER')")
     @GetMapping("/admin/track/{bikeId}")
     public ResponseEntity<Bike> trackBike(@PathVariable String bikeId) {

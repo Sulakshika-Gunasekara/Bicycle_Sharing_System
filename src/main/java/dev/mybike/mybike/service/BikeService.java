@@ -30,4 +30,6 @@ public interface BikeService {
 
     Bike updateBikeStation(String bikeId, String oldStationId, String newStationId);
 
+    List<Bike> getBikeByStationId(String stationId);
+
 }
