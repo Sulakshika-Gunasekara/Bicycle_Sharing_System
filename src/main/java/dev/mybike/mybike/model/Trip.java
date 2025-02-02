@@ -12,7 +12,7 @@ import lombok.Data;
 public class Trip {
     @Id
     private String _id;
-    private String Ridername;
+    private String RiderId;
     private String destination;
     private Date startTime; // Change to Date
     private Date endTime; // Change to Date
