@@ -133,10 +133,16 @@ public class AuthController {
             // Generate token after successful login
             String token = jwtUtil.generateToken(rider.getRidername());
 
+            // FIXME: 
+            String firstName = rider.getRidername();
+
+            System.out.println(firstName);
+
             return ResponseEntity.ok(Map.of(
                     "message", "Login successful",
                     "token", token,
-                    "expiresIn", jwtUtil.jwtExpirationMs()
+                    "expiresIn", jwtUtil.jwtExpirationMs(),
+                    "firstName", firstName
             ));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid ridername or password");
