@@ -1,5 +1,7 @@
 package dev.mybike.mybike.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -117,6 +119,30 @@ public class TripController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error getting balance: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/startTrip/{riderId}/{startTime}/{destination}")
+    public ResponseEntity<String> startTrip(@PathVariable String riderId, @PathVariable Date startTime,
+            @PathVariable String destination) {
+        try {
+            Trip trip = tripService.startTrip(riderId, startTime, destination);
+            return ResponseEntity.ok("Trip started successfully. " + trip);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error starting trip: " + e.getMessage());
+        }
+
+    }
+
+    @PostMapping("/endTrip/{tripId}/{endTime}")
+    public ResponseEntity<String> endTrip(@PathVariable String tripId, @PathVariable Date endTime) {
+        try {
+            Trip trip = tripService.endTrip(tripId, endTime);
+            return ResponseEntity.ok("Trip ended successfully. " + trip);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error ending trip: " + e.getMessage());
         }
     }
 
