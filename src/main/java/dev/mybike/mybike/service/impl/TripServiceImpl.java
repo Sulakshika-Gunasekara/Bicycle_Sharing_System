@@ -1,5 +1,7 @@
 package dev.mybike.mybike.service.impl;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +66,24 @@ public class TripServiceImpl implements TripService {
     @Override
     public double getBalance(Rider rider) {
         return rider.getWalletBalance();
+    }
+
+    @Override
+    public Trip startTrip(String riderId, Date startTime, String destination) {
+        Trip trip = new Trip();
+        trip.setRiderId(riderId);
+        trip.setStartTime(startTime);
+        trip.setDestination(destination);
+        tripRepository.save(trip);
+        return trip;
+    }
+
+    @Override
+    public Trip endTrip(String tripId, Date endTime) {
+        Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new RuntimeException("Trip not found"));
+        trip.setEndTime(endTime);
+        tripRepository.save(trip);
+        return trip;
     }
 
 }
