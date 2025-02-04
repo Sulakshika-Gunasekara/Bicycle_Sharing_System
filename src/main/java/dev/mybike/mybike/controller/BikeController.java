@@ -65,25 +65,43 @@ public class BikeController {
         return ResponseEntity.ok(bike);
     }
 
+    // @PreAuthorize("hasRole('RIDER')")
+    // @PostMapping("/rider/reserve/{bikeId}/{oldStationId}")
+    // public ResponseEntity<Bike> reserveBike(@PathVariable String bikeId) {
+    // // bike bike = bikeService.reserveBike(bikeId);
+    // // return ResponseEntity.ok(bike);
+    // try {
+    // // Call the service method to reserve the bike
+    // Bike bike = bikeService.reserveBike(bikeId, "oldStationId");
+    // return ResponseEntity.ok(bike); // Return 200 OK with the bike details
+    // } catch (IllegalArgumentException ex) {
+    // // Handle exceptions and return 400 Bad Request with the error message
+    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    // }
+    // }
+
     @PreAuthorize("hasRole('RIDER')")
     @PostMapping("/rider/reserve/{bikeId}")
     public ResponseEntity<Bike> reserveBike(@PathVariable String bikeId) {
-        // bike bike = bikeService.reserveBike(bikeId);
-        // return ResponseEntity.ok(bike);
         try {
-            // Call the service method to reserve the bike
-            Bike bike = bikeService.reserveBike(bikeId, "oldStationId");
-            return ResponseEntity.ok(bike); // Return 200 OK with the bike details
+            Bike bike = bikeService.reserveBike(bikeId);
+            return ResponseEntity.ok(bike);
         } catch (IllegalArgumentException ex) {
-            // Handle exceptions and return 400 Bad Request with the error message
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
+    // @PreAuthorize("hasRole('RIDER')")
+    // @PostMapping("/rider/return/{bikeId}")
+    // public ResponseEntity<Bike> returnBike(@PathVariable String bikeId) {
+    // Bike bike = bikeService.returnBike(bikeId, "newStationId");
+    // return ResponseEntity.ok(bike);
+    // }
+
     @PreAuthorize("hasRole('RIDER')")
-    @PostMapping("/rider/return/{bikeId}")
-    public ResponseEntity<Bike> returnBike(@PathVariable String bikeId) {
-        Bike bike = bikeService.returnBike(bikeId, "newStationId");
+    @PutMapping("/rider/return/{bikeId}/{newStationId}")
+    public ResponseEntity<Bike> returnBike(@PathVariable String bikeId, @PathVariable String newStationId) {
+        Bike bike = bikeService.returnBike(bikeId, newStationId);
         return ResponseEntity.ok(bike);
     }
 

@@ -21,8 +21,9 @@ public interface BikeService {
 
     Bike reportIssueBike(String bikeId, String issue);
 
-    Bike reserveBike(String bikeId, String oldStationId); // correctly run when only isAvailable is true. otherwise 500
-                                                          // error
+    // Bike reserveBike(String bikeId, String oldStationId); // correctly run when
+    // only isAvailable is true. otherwise 500
+    // erro
 
     Bike returnBike(String bikeId, String newStationId);
 
@@ -31,5 +32,7 @@ public interface BikeService {
     Bike updateBikeStation(String bikeId, String oldStationId, String newStationId);
 
     List<Bike> getBikeByStationId(String stationId);
+
+    Bike reserveBike(String bikeId);
 
 }
