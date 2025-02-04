@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -122,23 +123,35 @@ public class TripController {
         }
     }
 
-    @PostMapping("/startTrip/{riderId}/{startTime}/{destination}")
-    public ResponseEntity<String> startTrip(@PathVariable String riderId, @PathVariable Date startTime,
-            @PathVariable String destination) {
+    // @PostMapping("/startTrip")
+    // public ResponseEntity<String> startTrip(@PathVariable String riderId,
+    // @PathVariable Date startTime,
+    // @PathVariable String destination) {
+    // try {
+    // Trip trip = tripService.startTrip(riderId, startTime, destination);
+    // return ResponseEntity.ok("Trip started successfully. " + trip);
+    // } catch (Exception e) {
+    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    // .body("Error starting trip: " + e.getMessage());
+    // }
+
+    // }
+
+    @PostMapping("/startTrip/{riderId}")
+    public ResponseEntity<String> startTrip(@PathVariable String riderId) {
         try {
-            Trip trip = tripService.startTrip(riderId, startTime, destination);
+            Trip trip = tripService.startTrip(riderId);
             return ResponseEntity.ok("Trip started successfully. " + trip);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error starting trip: " + e.getMessage());
         }
-
     }
 
-    @PostMapping("/endTrip/{tripId}/{endTime}")
-    public ResponseEntity<String> endTrip(@PathVariable String tripId, @PathVariable Date endTime) {
+    @PutMapping("end/{tripId}")
+    public ResponseEntity<String> endTrip(@PathVariable String tripId) {
         try {
-            Trip trip = tripService.endTrip(tripId, endTime);
+            Trip trip = tripService.endTrip(tripId);
             return ResponseEntity.ok("Trip ended successfully. " + trip);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

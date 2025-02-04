@@ -10,6 +10,10 @@ import dev.mybike.mybike.model.Trip;
 import dev.mybike.mybike.repository.TripRepository;
 import dev.mybike.mybike.service.TripService;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 @Service
 public class TripServiceImpl implements TripService {
 
@@ -68,22 +72,51 @@ public class TripServiceImpl implements TripService {
         return rider.getWalletBalance();
     }
 
+    // @Override
+    // public Trip startTrip(String riderId, Date startTime, String destination) {
+    // Trip trip = new Trip();
+    // trip.setRiderId(riderId);
+    // trip.setStartTime(startTime);
+    // trip.setDestination(destination);
+    // tripRepository.save(trip);
+    // return trip;
+    // }
+
     @Override
-    public Trip startTrip(String riderId, Date startTime, String destination) {
+    public Trip startTrip(String riderId) {
         Trip trip = new Trip();
         trip.setRiderId(riderId);
-        trip.setStartTime(startTime);
-        trip.setDestination(destination);
+        trip.setStartTime(new Date());
         tripRepository.save(trip);
         return trip;
     }
 
+    // @Override
+    // public Trip endTrip(String tripId, Date endTime) {
+    // Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new
+    // RuntimeException("Trip not found"));
+    // trip.setEndTime(endTime);
+    // tripRepository.save(trip);
+    // return trip;
+    // }
+
     @Override
-    public Trip endTrip(String tripId, Date endTime) {
+    public Trip endTrip(String tripId) {
         Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new RuntimeException("Trip not found"));
-        trip.setEndTime(endTime);
-        tripRepository.save(trip);
-        return trip;
+        trip.setEndTime(Date.from(Instant.now()));
+        return tripRepository.save(trip);
     }
+
+    // @Override
+    // public Trip endTrip(String tripId) {
+    // Trip trip = tripRepository.findById(tripId)
+    // .orElseThrow(() -> new RuntimeException("Trip not found"));
+
+    // // Set the current date and time as the end time
+    // trip.setEndTime(LocalDateTime.now(ZoneId.systemDefault()));
+
+    // // Save the updated trip
+    // return tripRepository.save(trip);
+    // }
 
 }

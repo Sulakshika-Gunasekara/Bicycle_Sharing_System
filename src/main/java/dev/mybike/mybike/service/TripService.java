@@ -17,8 +17,8 @@ public interface TripService {
 
     double getBalance(Rider rider);
 
-    Trip startTrip(String riderId, Date startTime, String destination);
+    Trip startTrip(String riderId);
 
-    Trip endTrip(String tripId, Date endTime);
+    Trip endTrip(String tripId);
 
 }
