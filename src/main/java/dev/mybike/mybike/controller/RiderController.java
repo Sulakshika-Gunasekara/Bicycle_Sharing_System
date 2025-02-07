@@ -1,6 +1,7 @@
 package dev.mybike.mybike.controller;
 
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,27 +40,33 @@ public class RiderController {
 
     // Endpoint to access user protected resources
     @GetMapping("/protected-data")
-    public ResponseEntity<String> getProtectedData(@RequestHeader("Authorization") String token) {
-        if (token != null && token.startsWith("Bearer ")) {
+    public ResponseEntity<String> getProtectedData(@RequestHeader("Authorization") String token){
+        if(token != null && token.startsWith("Bearer ")){
             String jwtToken = token.substring(7);
 
-            try {
-                if (jwtUtil.isTokenVaild(jwtToken)) {
+            try{
+                if(jwtUtil.isTokenVaild(jwtToken)){
                     String username = jwtUtil.extractUsername(jwtToken);
 
-                    Optional<Rider> riderOpt = riderRepository.findByRidername(username);
-                    if (riderOpt.isEmpty()) {
-                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Rider not found");
-                    }
+                    Set<String> roles = jwtUtil.extractRoles(jwtToken);
 
-                    return ResponseEntity.ok("Welcome " + username);
+                    if(roles.contains(ADMIN)){
+                        return ResponseEntity.ok("Welcome "+username+" Here is the "+roles+" Specific data");
+                    }else if(roles.contains(USER)){
+                        return ResponseEntity.ok("Welcome "+username+" Here is the "+roles+" Specific data");
+                    }
+                    else {
+                        return ResponseEntity.status(403).body("Access Denied");
+                    }
                 }
-            } catch (Exception ex) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Token");
+            }catch (Exception ex){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invaild Token");
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization Header missing or invalid");
     }
+
+
 
     // Get authenticated rider's profile
     @GetMapping("/profile")
