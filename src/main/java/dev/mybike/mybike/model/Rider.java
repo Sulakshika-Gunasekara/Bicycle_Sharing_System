@@ -1,9 +1,9 @@
 package dev.mybike.mybike.model;
 
 
-import java.util.Set;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -17,6 +17,7 @@ import lombok.Data;
 @Data
 @Document(collection = "riders")
 public class Rider {
+
     @Id
     private String id;
 

@@ -1,24 +1,33 @@
 package dev.mybike.mybike.controller;
 
 
-import dev.mybike.mybike.dto.RegisterRequest;
-import dev.mybike.mybike.dto.VerifyRequest;
-import dev.mybike.mybike.model.Role;
-import dev.mybike.mybike.model.Rider;
-import dev.mybike.mybike.repository.RoleRepository;
-import dev.mybike.mybike.repository.RiderRepository;
-import dev.mybike.mybike.service.EmailService;
-import dev.mybike.mybike.security.JwtUtil;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
+import java.util.Set;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
-import dev.mybike.mybike.dto.LoginRequest;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-import java.util.*;
+import dev.mybike.mybike.dto.LoginRequest;
+import dev.mybike.mybike.dto.RegisterRequest;
+import dev.mybike.mybike.dto.VerifyRequest;
+import dev.mybike.mybike.model.Rider;
+import dev.mybike.mybike.model.Role;
+import dev.mybike.mybike.repository.RiderRepository;
+import dev.mybike.mybike.repository.RoleRepository;
+import dev.mybike.mybike.security.JwtUtil;
+import dev.mybike.mybike.service.EmailService;
 
 @RestController
 @RequestMapping("/auth")
