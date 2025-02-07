@@ -115,4 +115,22 @@ public class RiderController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization Header missing or invalid");
     }
+    // Get rider data without password
+    @GetMapping("/rider-data")
+    public ResponseEntity<?> getRiderData(@RequestHeader("Authorization") String token) {
+        if (token != null && token.startsWith("Bearer ")) {
+            String jwtToken = token.substring(7);
+            String username = jwtUtil.extractUsername(jwtToken);
+
+            Optional<Rider> riderOpt = riderRepository.findByRidername(username);
+            if (riderOpt.isPresent()) {
+                Rider rider = riderOpt.get();
+                rider.setPassword(null); // Remove password from the response
+                return ResponseEntity.ok(rider);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Rider not found");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization Header missing or invalid");
+    }
 }
