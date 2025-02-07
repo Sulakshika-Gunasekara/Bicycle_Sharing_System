@@ -1,7 +1,5 @@
 package dev.mybike.mybike.model;
 
-import java.util.Date;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,9 +11,7 @@ public class Trip {
     @Id
     private String _id;
     private String RiderId;
-    private String destination;
-    private Date startTime; // Change to Date
-    private Date endTime; // Change to Date
+    private String bikeId;
+    private String timeDuration;
 
-    // Getters and setters
 }
