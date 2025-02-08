@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -33,40 +35,38 @@ public class RiderController {
     private PasswordEncoder passwordEncoder;
 
     @Value("${role.admin}")
-    private String ADMIN;
+    private String ADMIN; // Should be "ADMIN"
 
-    @Value("${role.user}")
-    private String USER;
+    @Value("${role.rider}")
+    private String RIDER; // Should be "RIDER"
 
-    // Endpoint to access user protected resources
+    // Get protected data based on role
     @GetMapping("/protected-data")
-    public ResponseEntity<String> getProtectedData(@RequestHeader("Authorization") String token){
-        if(token != null && token.startsWith("Bearer ")){
+    public ResponseEntity<String> getProtectedData(@RequestHeader("Authorization") String token) {
+        if (token != null && token.startsWith("Bearer ")) {
             String jwtToken = token.substring(7);
 
-            try{
-                if(jwtUtil.isTokenVaild(jwtToken)){
+            try {
+                if (jwtUtil.isTokenVaild(jwtToken)) {
                     String username = jwtUtil.extractUsername(jwtToken);
-
                     Set<String> roles = jwtUtil.extractRoles(jwtToken);
 
-                    if(roles.contains(ADMIN)){
-                        return ResponseEntity.ok("Welcome "+username+" Here is the "+roles+" Specific data");
-                    }else if(roles.contains(USER)){
-                        return ResponseEntity.ok("Welcome "+username+" Here is the "+roles+" Specific data");
-                    }
-                    else {
-                        return ResponseEntity.status(403).body("Access Denied");
+                    System.out.println("Extracted Roles: " + roles); // Debugging log
+
+                    if (roles.contains(ADMIN)) {
+                        return ResponseEntity.ok("Welcome " + username + ", you have ADMIN access.");
+                    } else if (roles.contains(RIDER)) {
+                        return ResponseEntity.ok("Welcome " + username + ", you have RIDER access.");
+                    } else {
+                        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied");
                     }
                 }
-            }catch (Exception ex){
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invaild Token");
+            } catch (Exception ex) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Token");
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization Header missing or invalid");
     }
-
-
 
     // Get authenticated rider's profile
     @GetMapping("/profile")
@@ -76,11 +76,8 @@ public class RiderController {
             String username = jwtUtil.extractUsername(jwtToken);
 
             Optional<Rider> riderOpt = riderRepository.findByRidername(username);
-            if (riderOpt.isPresent()) {
-                return ResponseEntity.ok(riderOpt.get());
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Rider not found");
-            }
+            return riderOpt.map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization Header missing or invalid");
     }
@@ -96,10 +93,8 @@ public class RiderController {
             Optional<Rider> riderOpt = riderRepository.findByRidername(username);
             if (riderOpt.isPresent()) {
                 Rider rider = riderOpt.get();
-
                 rider.setFirstName(updatedRider.getFirstName());
                 rider.setLastName(updatedRider.getLastName());
-                rider.setEmail(updatedRider.getEmail());
                 rider.setMobileNumber(updatedRider.getMobileNumber());
                 rider.setLocation(updatedRider.getLocation());
 
@@ -115,6 +110,7 @@ public class RiderController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization Header missing or invalid");
     }
+
     // Get rider data without password
     @GetMapping("/rider-data")
     public ResponseEntity<?> getRiderData(@RequestHeader("Authorization") String token) {
@@ -129,6 +125,69 @@ public class RiderController {
                 return ResponseEntity.ok(rider);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Rider not found");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization Header missing or invalid");
+    }
+
+    // List all riders (ADMIN and RIDER access)
+    @GetMapping("/riders")
+    public ResponseEntity<?> listAllRiders(@RequestHeader("Authorization") String token) {
+        if (token != null && token.startsWith("Bearer ")) {
+            String jwtToken = token.substring(7);
+
+            if (jwtUtil.isTokenVaild(jwtToken)) {
+                Set<String> roles = jwtUtil.extractRoles(jwtToken);
+                System.out.println("Extracted Roles for /riders: " + roles); // Debugging log
+
+                if (roles.contains(ADMIN) || roles.contains(RIDER)) {
+                    return ResponseEntity.ok(riderRepository.findAll());
+                } else {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied");
+                }
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization Header missing or invalid");
+    }
+
+    // Delete authenticated rider's profile (RIDER access)
+    @DeleteMapping("/profile")
+    public ResponseEntity<?> deleteUserProfile(@RequestHeader("Authorization") String token) {
+        if (token != null && token.startsWith("Bearer ")) {
+            String jwtToken = token.substring(7);
+            String username = jwtUtil.extractUsername(jwtToken);
+
+            Optional<Rider> riderOpt = riderRepository.findByRidername(username);
+            if (riderOpt.isPresent()) {
+                riderRepository.delete(riderOpt.get());
+                return ResponseEntity.ok("Profile deleted successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Rider not found");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization Header missing or invalid");
+    }
+
+    // Delete any rider's profile (ADMIN access)
+    @DeleteMapping("/profile/{ridername}")
+    public ResponseEntity<?> deleteRiderProfile(@RequestHeader("Authorization") String token, @PathVariable String ridername) {
+        if (token != null && token.startsWith("Bearer ")) {
+            String jwtToken = token.substring(7);
+
+            if (jwtUtil.isTokenVaild(jwtToken)) {
+                Set<String> roles = jwtUtil.extractRoles(jwtToken);
+
+                if (roles.contains(ADMIN)) {
+                    Optional<Rider> riderOpt = riderRepository.findByRidername(ridername);
+                    if (riderOpt.isPresent()) {
+                        riderRepository.delete(riderOpt.get());
+                        return ResponseEntity.ok("Rider profile deleted successfully");
+                    } else {
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Rider not found");
+                    }
+                } else {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied");
+                }
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authorization Header missing or invalid");
