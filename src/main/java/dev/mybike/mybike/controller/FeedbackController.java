@@ -23,12 +23,17 @@ public class FeedbackController {
     @Autowired
     private FeedbackService feedbackService;
 
-    @PostMapping("/addFeedback")
-    public ResponseEntity<Feedback> addFeedback(@RequestBody Feedback feedback) {
-        feedbackService.addFeedback(feedback.getFeedback(), feedback.getRating(),
-                feedback.getDate());
-        return ResponseEntity.ok(feedback);
+    @PostMapping("/createFeedback")
+    public ResponseEntity<Feedback> createFeedback(@RequestBody Feedback feedback) {
+        Feedback createdFeedback = feedbackService.creatFeedback(feedback);
+        return ResponseEntity.ok(createdFeedback);
     }
+
+    // {
+    // "feedback": "Everything was perfect, thanks!",
+    // "rating": 5,
+    // "date": "2025-01-19"
+    // }
 
     @GetMapping("/{feedbackId}")
     public ResponseEntity<Feedback> getBikeById(@PathVariable String feedbackId) {

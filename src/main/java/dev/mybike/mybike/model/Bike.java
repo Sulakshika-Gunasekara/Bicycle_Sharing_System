@@ -3,7 +3,11 @@ package dev.mybike.mybike.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Represents a bike in the bike-sharing system.
@@ -26,6 +30,9 @@ import lombok.Data;
  */
 @Document(collection = "bike")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class Bike {
 
     @Id
