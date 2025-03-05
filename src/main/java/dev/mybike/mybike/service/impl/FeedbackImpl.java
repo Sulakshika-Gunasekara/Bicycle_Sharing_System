@@ -16,14 +16,8 @@ public class FeedbackImpl implements FeedbackService {
     private FeedbackRepository feedbackRepository;
 
     @Override
-    public Feedback addFeedback(String feedback, int rating, String date) {
-        Feedback feedbackObj = new Feedback();
-        // feedbackObj.setCustomerId(customerId);
-        feedbackObj.setFeedback(feedback);
-        feedbackObj.setRating(rating);
-        feedbackObj.setDate(date);
-        feedbackRepository.save(feedbackObj);
-        return feedbackObj;
+    public Feedback creatFeedback(Feedback feedback) {
+        return feedbackRepository.save(feedback);
     }
 
     @Override

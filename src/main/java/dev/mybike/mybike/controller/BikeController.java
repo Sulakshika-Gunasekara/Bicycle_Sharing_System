@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -118,6 +119,13 @@ public class BikeController {
             @PathVariable String newStationId) {
         Bike bike = bikeService.updateBikeStation(bikeId, oldStationId, newStationId);
         return ResponseEntity.ok(bike);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/admin/createBike")
+    public ResponseEntity<Bike> createBike(@RequestBody Bike bike) {
+        Bike createBike = bikeService.createBike(bike);
+        return ResponseEntity.ok(createBike);
     }
 
 }

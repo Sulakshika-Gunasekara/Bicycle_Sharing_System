@@ -35,4 +35,6 @@ public interface BikeService {
 
     Bike reserveBike(String bikeId);
 
+    Bike createBike(Bike bike);
+
 }

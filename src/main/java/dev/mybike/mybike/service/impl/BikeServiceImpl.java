@@ -151,4 +151,17 @@ public class BikeServiceImpl implements BikeService {
                 return bikeRepository.findByStationId(stationId);
         }
 
+        @Override
+        public Bike createBike(Bike bike) {
+                return bikeRepository.save(bike);
+        }
+
+        // {
+        // "stationId": "456",
+        // "currentLocationLatitude": 40.7128,
+        // "currentLocationLongitude": -74.0060,
+        // "condition": "Good",
+        // "isAvailable": true
+        // }
+
 }
