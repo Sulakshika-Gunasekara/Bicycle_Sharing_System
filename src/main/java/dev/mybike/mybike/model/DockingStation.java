@@ -31,7 +31,7 @@ public class DockingStation {
 
     @Id
     private String _id;
-
+    private String address;
     private String name;
     private double latitude;
     private double longitude;
