@@ -164,4 +164,12 @@ public class BikeServiceImpl implements BikeService {
         // "isAvailable": true
         // }
 
+        @Override
+        public Bike deleteBike(String bikeId) {
+                Bike bike = bikeRepository.findById(bikeId)
+                                .orElseThrow(() -> new IllegalArgumentException("Bike not found."));
+                bikeRepository.delete(bike);
+                return bike;
+        }
+
 }
