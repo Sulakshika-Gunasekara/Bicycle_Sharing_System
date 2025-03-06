@@ -4,39 +4,36 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.mybike.mybike.model.Feedback;
 import dev.mybike.mybike.service.FeedbackService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("api/feedback")
-@ControllerAdvice
 public class FeedbackController {
 
     @Autowired
     private FeedbackService feedbackService;
 
-    @PostMapping("/createFeedback")
+    @PostMapping("/create")
     public ResponseEntity<Feedback> createFeedback(@RequestBody Feedback feedback) {
-        Feedback createdFeedback = feedbackService.creatFeedback(feedback);
-        return ResponseEntity.ok(createdFeedback);
+        // Debugging log
+        System.out.println("Received Feedback: " + feedback);
+
+        // Save feedback
+        Feedback savedFeedback = feedbackService.creatFeedback(feedback);
+        
+        return ResponseEntity.ok(savedFeedback);
     }
 
-    // {
-    // "feedback": "Everything was perfect, thanks!",
-    // "rating": 5,
-    // "date": "2025-01-19"
-    // }
-
     @GetMapping("/{feedbackId}")
-    public ResponseEntity<Feedback> getBikeById(@PathVariable String feedbackId) {
+    public ResponseEntity<Feedback> getFeedbackById(@PathVariable String feedbackId) {
         Feedback feedback = feedbackService.getFeedbackById(feedbackId);
         return ResponseEntity.ok(feedback);
     }
@@ -49,14 +46,13 @@ public class FeedbackController {
 
     @GetMapping("/rating/{rating}")
     public ResponseEntity<List<Feedback>> getFeedbackByRating(@PathVariable int rating) {
-        List<Feedback> feedbacks = (List<Feedback>) feedbackService.getFeedbackByRating(rating);
+        List<Feedback> feedbacks = feedbackService.getFeedbackByRating(rating);
         return ResponseEntity.ok(feedbacks);
     }
 
     @GetMapping("/date/{date}")
     public ResponseEntity<List<Feedback>> getFeedbackByDate(@PathVariable String date) {
-        List<Feedback> feedbacks = (List<Feedback>) feedbackService.getFeedbackByDate(date);
+        List<Feedback> feedbacks = feedbackService.getFeedbackByDate(date);
         return ResponseEntity.ok(feedbacks);
     }
-
 }
