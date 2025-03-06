@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import dev.mybike.mybike.model.Feedback;
 import dev.mybike.mybike.repository.FeedbackRepository;
 import dev.mybike.mybike.service.FeedbackService;
@@ -15,8 +17,17 @@ public class FeedbackImpl implements FeedbackService {
     @Autowired
     private FeedbackRepository feedbackRepository;
 
+    private final ObjectMapper objectMapper = new ObjectMapper(); // Jackson ObjectMapper
+    
     @Override
     public Feedback creatFeedback(Feedback feedback) {
+        try {
+            // Convert incoming request to JSON and print it
+            String jsonFeedback = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(feedback);
+            System.out.println("Received Feedback: " + jsonFeedback);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return feedbackRepository.save(feedback);
     }
 
