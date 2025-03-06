@@ -37,4 +37,6 @@ public interface BikeService {
 
     Bike createBike(Bike bike);
 
+    Bike deleteBike(String bikeId);
+
 }
