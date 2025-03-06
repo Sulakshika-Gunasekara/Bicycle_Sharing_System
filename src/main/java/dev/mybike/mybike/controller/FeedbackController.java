@@ -23,10 +23,6 @@ public class FeedbackController {
 
     @PostMapping("/create")
     public ResponseEntity<Feedback> createFeedback(@RequestBody Feedback feedback) {
-        // Debugging log
-        System.out.println("Received Feedback: " + feedback);
-
-        // Save feedback
         Feedback savedFeedback = feedbackService.creatFeedback(feedback);
         
         return ResponseEntity.ok(savedFeedback);

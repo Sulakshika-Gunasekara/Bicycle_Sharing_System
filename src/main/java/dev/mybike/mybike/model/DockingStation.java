@@ -33,7 +33,6 @@ public class DockingStation {
     private String _id;
     private String address;
     private String name;
-    private String address;
     private double latitude;
     private double longitude;
     private int availableBikes;
