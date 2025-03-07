@@ -46,4 +46,12 @@ public class RiderServiceImpl implements RiderService {
     public Rider loadRiderByRidername(String Ridername) {
         return riderRepository.findByRidername(Ridername).orElseThrow(() -> new RuntimeException("Rider not found"));
     }
+
+    @Override
+    public void updateWalletBalance(String riderId, Double amount) {
+        riderRepository.findById(riderId).ifPresent(rider -> {
+            rider.setWalletBalance(rider.getWalletBalance() + amount);
+            riderRepository.save(rider);
+        });
+    }
 }

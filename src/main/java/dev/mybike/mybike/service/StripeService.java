@@ -22,19 +22,19 @@ public class StripeService {
         this.stripeSecretKey = stripeSecretKey;
         this.stripePublicKey = stripePublicKey;
         
-        // Set the API key at the service initialization
+        
         Stripe.apiKey = stripeSecretKey;
     }
 
     public Map<String, String> createCheckoutSession(double amount, String riderId) throws StripeException {
-        Stripe.apiKey = stripeSecretKey; // Ensure API key is set before making Stripe calls
+        Stripe.apiKey = stripeSecretKey; 
 
-        long amountInCents = (long) (amount * 100); // Convert amount to cents
+        long amountInCents = (long) (amount * 100); 
 
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl("http://localhost:3000/payment-success?riderId=" + riderId)
-                .setCancelUrl("http://localhost:3000/payment-failed")
+                .setSuccessUrl("http://localhost:5173/profile")
+                .setCancelUrl("http://localhost:5173/payment-failed")
                 .addLineItem(SessionCreateParams.LineItem.builder()
                         .setQuantity(1L)
                         .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
@@ -54,4 +54,9 @@ public class StripeService {
         response.put("checkoutUrl", session.getUrl());
         return response;
     }
+
+public void updateWalletBalance(String riderId, Double amount) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateWalletBalance'");
+}
 }

@@ -24,4 +24,6 @@ public interface RiderService {
 
     Rider loadRiderByRidername(String Ridername);
 
+    void updateWalletBalance(String riderId, Double amount);
+
 }
